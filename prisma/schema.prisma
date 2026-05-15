@@ -62,6 +62,8 @@ model Company {
   city          String?
   country       String?
   notes         String?
+  opportunitySummary String?
+  proposedSolutions String?
   description   String?
   addressNotes  String?
   productsOffered String?

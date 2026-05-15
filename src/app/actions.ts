@@ -4,6 +4,12 @@ import { CompanyCategory, CompanyStatus, InteractionType, TaskStatus } from "@pr
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getDb } from "@/lib/db";
+import {
+  sanitizeFilters,
+  sanitizeOfferings,
+  serializeFilters,
+  serializeOfferings
+} from "@/lib/taxonomy";
 
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -132,14 +138,25 @@ export async function updateCompanyComment(formData: FormData) {
     throw new Error("La empresa es obligatoria.");
   }
 
+  const selectedFilters = sanitizeFilters(
+    formData.getAll("keywords").filter((value): value is string => typeof value === "string")
+  );
+  const selectedOfferings = sanitizeOfferings(
+    formData.getAll("offerings").filter((value): value is string => typeof value === "string")
+  );
+
   await db.company.update({
     where: { id: companyId },
     data: {
       category: (getString(formData, "category") || "SIN_CATEGORIA") as CompanyCategory,
-      keywords: getNullableString(formData, "keywords"),
+      keywords: selectedFilters.length > 0 ? serializeFilters(selectedFilters) : null,
+      opportunitySummary: getNullableString(formData, "opportunitySummary"),
+      proposedSolutions: selectedOfferings.length > 0 ? serializeOfferings(selectedOfferings) : null,
       notes: getNullableString(formData, "notes")
     }
   });
 
   revalidatePath("/");
+  revalidatePath("/companies");
+  revalidatePath(`/companies/${companyId}`);
 }
