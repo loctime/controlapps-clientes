@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum CompanyStatus {
+  LEAD
+  PROSPECT
+  CLIENT
+  INACTIVE
+}
+
+enum CompanyCategory {
+  SIN_CATEGORIA
+  AGRO
+  INDUSTRIA
+  METALURGICA
+  LOGISTICA_TRANSPORTE
+  SALUD
+  COMERCIO
+  ALIMENTOS_BEBIDAS
+  CONSTRUCCION
+  TECNOLOGIA_AUTOMATIZACION
+  SERVICIOS_PROFESIONALES
+  MARKETING_COMUNICACION
+  EDUCACION_RRHH
+  FINANZAS_SEGUROS
+  ORGANISMOS_INSTITUCIONES
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  DONE
+}
+
+enum InteractionType {
+  NOTE
+  CALL
+  EMAIL
+  MEETING
+  WHATSAPP
+}
+
+model Company {
+  id            String           @id @default(cuid())
+  importKey     String?          @unique
+  name          String
+  status        CompanyStatus    @default(LEAD)
+  category      CompanyCategory  @default(SIN_CATEGORIA)
+  keywords      String?
+  industry      String?
+  businessType  String?
+  website       String?
+  instagram     String?
+  phone         String?
+  email         String?
+  city          String?
+  country       String?
+  notes         String?
+  description   String?
+  addressNotes  String?
+  productsOffered String?
+  productsDemanded String?
+  sourceEvent   String?
+  potentialValue Float?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  contacts      Contact[]
+  interactions  Interaction[]
+  tasks         Task[]
+
+  @@index([status])
+  @@index([name])
+}
+
+model Contact {
+  id         String   @id @default(cuid())
+  companyId  String
+  name       String
+  role       String?
+  email      String?
+  phone      String?
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+}
+
+model Interaction {
+  id         String          @id @default(cuid())
+  companyId  String
+  type       InteractionType @default(NOTE)
+  subject    String
+  detail     String?
+  happenedAt DateTime        @default(now())
+  createdAt  DateTime        @default(now())
+  company    Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, happenedAt])
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  companyId   String
+  title       String
+  detail      String?
+  dueDate     DateTime?
+  status      TaskStatus @default(PENDING)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  company     Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, status])
+  @@index([dueDate])
+}
