@@ -20,6 +20,17 @@ export default function RootLayout({
             <Link href="/" className="brand">
               ControlApps Clientes
             </Link>
+            <nav className="topnav" aria-label="Principal">
+              <Link href="/brief" className="topnav__link">
+                Brief
+              </Link>
+              <Link href="/" className="topnav__link">
+                Clientes
+              </Link>
+              <Link href="/agenda" className="topnav__link">
+                Agenda
+              </Link>
+            </nav>
           </header>
 
           <main className="content">{children}</main>

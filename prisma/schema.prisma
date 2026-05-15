@@ -38,6 +38,12 @@ enum TaskStatus {
   DONE
 }
 
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 enum InteractionType {
   NOTE
   CALL
@@ -46,12 +52,20 @@ enum InteractionType {
   WHATSAPP
 }
 
+enum CompanyBucket {
+  SIN_ASIGNAR
+  PROXIMOS
+  FUTUROS
+  MAGNATES
+}
+
 model Company {
   id            String           @id @default(cuid())
   importKey     String?          @unique
   name          String
   status        CompanyStatus    @default(LEAD)
   category      CompanyCategory  @default(SIN_CATEGORIA)
+  bucket        CompanyBucket    @default(SIN_ASIGNAR)
   keywords      String?
   industry      String?
   businessType  String?
@@ -78,6 +92,7 @@ model Company {
 
   @@index([status])
   @@index([name])
+  @@index([bucket])
 }
 
 model Contact {
@@ -108,16 +123,18 @@ model Interaction {
 }
 
 model Task {
-  id          String     @id @default(cuid())
-  companyId   String
+  id          String        @id @default(cuid())
+  companyId   String?
   title       String
   detail      String?
   dueDate     DateTime?
-  status      TaskStatus @default(PENDING)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  company     Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  priority    TaskPriority  @default(MEDIUM)
+  status      TaskStatus    @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  company     Company?      @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId, status])
   @@index([dueDate])
+  @@index([status, dueDate])
 }
