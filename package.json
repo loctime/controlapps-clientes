@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3200",
     "db:push": "prisma db push",
     "db:seed": "node prisma/seed.js",
     "import:ramallo": "node scripts/import-ramallo.js",
