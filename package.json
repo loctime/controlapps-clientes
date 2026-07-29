@@ -10,7 +10,8 @@
     "db:seed": "node prisma/seed.js",
     "import:ramallo": "node scripts/import-ramallo.js",
     "categorize:companies": "node scripts/categorize-companies.js",
-    "assign:buckets": "node scripts/assign-buckets.js"
+    "assign:buckets": "node scripts/assign-buckets.js",
+    "seed:programs": "node scripts/seed-programs.js"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",

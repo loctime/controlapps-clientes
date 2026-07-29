@@ -8,3 +8,7 @@ prisma/dev.db
 prisma/dev.db-journal
 prisma/prisma/
 scripts/ssh-vps.py
+tsconfig.tsbuildinfo
+scripts/scp-db.py
+scripts/upload-caddyfile.py
+scripts/caddy-config.txt

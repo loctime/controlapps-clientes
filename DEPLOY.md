@@ -142,11 +142,23 @@ O con SFTP/scp si querés un binary clean.
 | 404 desde Cloudflare | A record con typo o no apunta a VPS | `dig clientes.controldoc.app` |
 | Page loads pero data vacía | dev.db sin datos | verificar `prisma/dev.db` size en VPS |
 
+## Variables de entorno
+
+`.env` está gitignoreado (el repo es público) y hay que crearlo a mano en cada máquina:
+
+```bash
+DATABASE_URL="file:./prisma/dev.db"
+PANEL_PASSWORD="<la clave de acceso>"
+PANEL_SECRET="<openssl rand -hex 32>"
+```
+
+Sin `PANEL_PASSWORD` el panel queda cerrado: `/login` muestra el aviso y no deja entrar.
+Cambiar `PANEL_SECRET` invalida todas las sesiones abiertas.
+
 ## Endurecer (pendiente)
 
-- **Auth**: el sitio está **público**. Opciones:
-  - Cloudflare Access (requiere admin acceso al Zero Trust dashboard, gratis hasta 50 users)
-  - Middleware Next.js con basic auth + password env var
-  - Firebase Auth (compartiría users con el resto de la familia controldoc)
+- **Auth**: resuelto con `src/proxy.ts` — password compartida (`PANEL_PASSWORD`) y cookie
+  HttpOnly firmada con HMAC-SHA256 (`PANEL_SECRET`), 30 días. Si más adelante hace falta
+  multi-usuario, la alternativa sigue siendo Cloudflare Access o Firebase Auth.
 - **Firewall**: `ufw` está inactive. Idealmente: allow 22, 80, 443; block todo lo demás.
 - **Backup automático**: cronjob diario que tira el dev.db a B2 o GCS.

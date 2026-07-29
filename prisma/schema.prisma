@@ -59,6 +59,32 @@ enum CompanyBucket {
   MAGNATES
 }
 
+enum ServiceStatus {
+  PROPUESTA
+  ACTIVO
+  PAUSADO
+  FINALIZADO
+}
+
+enum BillingCycle {
+  MENSUAL
+  TRIMESTRAL
+  ANUAL
+  UNICO
+  POR_HITO
+}
+
+enum Currency {
+  ARS
+  USD
+}
+
+enum PaymentStatus {
+  PENDIENTE
+  PAGADO
+  ANULADO
+}
+
 model Company {
   id            String           @id @default(cuid())
   importKey     String?          @unique
@@ -89,6 +115,7 @@ model Company {
   contacts      Contact[]
   interactions  Interaction[]
   tasks         Task[]
+  services      Service[]
 
   @@index([status])
   @@index([name])
@@ -120,6 +147,59 @@ model Interaction {
   company    Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId, happenedAt])
+}
+
+model Service {
+  id             String        @id @default(cuid())
+  companyId      String
+  name           String
+  scope          String?
+  status         ServiceStatus @default(ACTIVO)
+  amount         Float         @default(0)
+  currency       Currency      @default(ARS)
+  billingCycle   BillingCycle  @default(MENSUAL)
+  startDate      DateTime      @default(now())
+  endDate        DateTime?
+  nextDueDate    DateTime?
+  paymentMethod  String?
+  needsInvoice   Boolean       @default(false)
+  billingContact String?
+  billingEmail   String?
+  billingPhone   String?
+  infraCost      Float         @default(0)
+  infraNotes     String?
+  url            String?
+  repoUrl        String?
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  company        Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  payments       Payment[]
+
+  @@index([companyId])
+  @@index([status])
+  @@index([nextDueDate])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  serviceId     String
+  concept       String
+  amount        Float
+  currency      Currency      @default(ARS)
+  dueDate       DateTime
+  paidAt        DateTime?
+  status        PaymentStatus @default(PENDIENTE)
+  method        String?
+  invoiceNumber String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  service       Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId])
+  @@index([status, dueDate])
+  @@index([dueDate])
 }
 
 model Task {
