@@ -19,6 +19,9 @@ export default function PanelLayout({
           <Link href="/programas" className="topnav__link">
             Programas
           </Link>
+          <Link href="/historial" className="topnav__link">
+            Historial
+          </Link>
           <Link href="/agenda" className="topnav__link">
             Agenda
           </Link>

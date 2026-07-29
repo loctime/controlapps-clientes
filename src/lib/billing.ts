@@ -156,3 +156,38 @@ export async function getBillingData() {
     }
   };
 }
+
+// A diferencia de getBillingData (pensado para "qué está abierto hoy"), esto
+// trae TODOS los cobros de TODOS los programas, pagados o no, para el
+// historial completo.
+export async function getPaymentHistory() {
+  const db = getDb();
+
+  const [payments, companies] = await Promise.all([
+    db.payment.findMany({
+      include: {
+        service: {
+          select: {
+            id: true,
+            name: true,
+            company: { select: { id: true, name: true } }
+          }
+        }
+      },
+      orderBy: [{ dueDate: "desc" }, { createdAt: "desc" }]
+    }),
+    db.company.findMany({
+      select: { id: true, name: true },
+      orderBy: { name: "asc" }
+    })
+  ]);
+
+  const totalCollected = emptyTotals();
+  for (const payment of payments) {
+    if (payment.status === PaymentStatus.PAGADO) {
+      totalCollected[payment.currency] += payment.amount;
+    }
+  }
+
+  return { payments, companies, totalCollected };
+}

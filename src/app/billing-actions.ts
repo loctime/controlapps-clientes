@@ -50,6 +50,7 @@ function pickEnum<T extends Record<string, string>>(
 
 function refresh() {
   revalidatePath("/programas");
+  revalidatePath("/historial");
   revalidatePath("/brief");
   revalidatePath("/empresas");
 }
