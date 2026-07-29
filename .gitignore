@@ -12,3 +12,5 @@ tsconfig.tsbuildinfo
 scripts/scp-db.py
 scripts/upload-caddyfile.py
 scripts/caddy-config.txt
+export-empresas-*.json
+scripts/_stats.js

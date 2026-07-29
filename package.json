@@ -12,7 +12,9 @@
     "categorize:companies": "node scripts/categorize-companies.js",
     "assign:buckets": "node scripts/assign-buckets.js",
     "seed:programs": "node scripts/seed-programs.js",
-    "smoke:auth": "node scripts/smoke-auth.js"
+    "smoke:auth": "node scripts/smoke-auth.js",
+    "export:companies": "node scripts/export-companies.js",
+    "keep:clients": "node scripts/keep-only-clients.js"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
