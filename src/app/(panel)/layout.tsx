@@ -9,15 +9,12 @@ export default function PanelLayout({
   return (
     <div className="app-shell">
       <header className="topbar">
-        <Link href="/" className="brand">
+        <Link href="/programas" className="brand">
           ControlApps Clientes
         </Link>
         <nav className="topnav" aria-label="Principal">
           <Link href="/brief" className="topnav__link">
             Brief
-          </Link>
-          <Link href="/" className="topnav__link">
-            Clientes
           </Link>
           <Link href="/programas" className="topnav__link">
             Programas

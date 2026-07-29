@@ -10,7 +10,7 @@ export default async function LoginPage({
 }) {
   const params = await searchParams;
   const configured = Boolean(getPanelPassword());
-  const next = params.next ?? "/";
+  const next = params.next ?? "/programas";
 
   return (
     <div className="login-page">

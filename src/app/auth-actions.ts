@@ -6,13 +6,13 @@ import { AUTH_COOKIE, SESSION_DAYS, createSessionToken, getPanelPassword } from 
 
 function safeNext(value: string) {
   // Solo rutas internas: evita que ?next= sirva de redirect abierto.
-  if (!value.startsWith("/") || value.startsWith("//")) return "/";
+  if (!value.startsWith("/") || value.startsWith("//")) return "/programas";
   return value;
 }
 
 export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
-  const next = safeNext(String(formData.get("next") ?? "/"));
+  const next = safeNext(String(formData.get("next") ?? "/programas"));
   const expected = getPanelPassword();
 
   if (!expected) {

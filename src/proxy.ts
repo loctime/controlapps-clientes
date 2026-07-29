@@ -5,6 +5,12 @@ export async function proxy(request: NextRequest) {
   const token = request.cookies.get(AUTH_COOKIE)?.value;
 
   if (await verifySessionToken(token)) {
+    // La portada es Programas: el listado de empresas quedó en /empresas y ya
+    // no se muestra en el menú.
+    if (request.nextUrl.pathname === "/") {
+      return NextResponse.redirect(new URL("/programas", request.url));
+    }
+
     return NextResponse.next();
   }
 

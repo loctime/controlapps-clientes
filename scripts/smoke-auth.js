@@ -45,7 +45,10 @@ async function main() {
     console.log(`  ${conCookie.body.includes(marker) ? "ok" : "FALTA"}  ${marker}`);
   }
 
-  for (const route of ["/", "/brief", "/agenda"]) {
+  const portada = await check("/", { cookie });
+  console.log(`con sesion   /          -> ${portada.status} ${portada.location ?? ""}`);
+
+  for (const route of ["/empresas", "/brief", "/agenda"]) {
     const page = await check(route, { cookie });
     console.log(`con sesion   ${route} -> ${page.status}`);
   }

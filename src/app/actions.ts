@@ -50,7 +50,7 @@ export async function createCompany(formData: FormData) {
     }
   });
 
-  revalidatePath("/");
+  revalidatePath("/empresas");
   revalidatePath("/companies");
   redirect(`/companies/${company.id}`);
 }
@@ -108,7 +108,7 @@ export async function createInteraction(formData: FormData) {
     }
   });
 
-  revalidatePath("/");
+  revalidatePath("/empresas");
   revalidatePath("/companies");
   revalidatePath(`/companies/${companyId}`);
 }
@@ -132,7 +132,7 @@ export async function createTask(formData: FormData) {
     }
   });
 
-  revalidatePath("/");
+  revalidatePath("/empresas");
   revalidatePath("/companies");
   revalidatePath(`/companies/${companyId}`);
 }
@@ -163,7 +163,7 @@ export async function updateCompanyComment(formData: FormData) {
     }
   });
 
-  revalidatePath("/");
+  revalidatePath("/empresas");
   revalidatePath("/companies");
   revalidatePath(`/companies/${companyId}`);
 }
@@ -212,7 +212,7 @@ export async function createAgendaTask(formData: FormData) {
   });
 
   revalidatePath("/agenda");
-  revalidatePath("/");
+  revalidatePath("/empresas");
 }
 
 export async function toggleTaskStatus(formData: FormData) {
@@ -231,7 +231,7 @@ export async function toggleTaskStatus(formData: FormData) {
   });
 
   revalidatePath("/agenda");
-  revalidatePath("/");
+  revalidatePath("/empresas");
 }
 
 export async function deleteAgendaTask(formData: FormData) {
@@ -242,7 +242,7 @@ export async function deleteAgendaTask(formData: FormData) {
   await db.task.delete({ where: { id: taskId } });
 
   revalidatePath("/agenda");
-  revalidatePath("/");
+  revalidatePath("/empresas");
 }
 
 export async function updateAgendaTask(formData: FormData) {
@@ -273,7 +273,7 @@ export async function updateAgendaTask(formData: FormData) {
   });
 
   revalidatePath("/agenda");
-  revalidatePath("/");
+  revalidatePath("/empresas");
 }
 
 const VALID_BUCKETS = new Set<CompanyBucket>([
@@ -299,7 +299,7 @@ export async function updateCompanyBucket(formData: FormData) {
     data: { bucket }
   });
 
-  revalidatePath("/");
+  revalidatePath("/empresas");
   revalidatePath("/companies");
   revalidatePath(`/companies/${companyId}`);
 }
