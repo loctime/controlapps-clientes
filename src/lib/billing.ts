@@ -21,14 +21,27 @@ export function monthlyValue(amount: number, cycle: BillingCycle) {
   return amount * MONTHLY_FACTOR[cycle];
 }
 
+const MONTHS_TO_ADD: Partial<Record<BillingCycle, number>> = {
+  MENSUAL: 1,
+  TRIMESTRAL: 3,
+  ANUAL: 12
+};
+
+// En UTC para no depender del huso del server: las fechas de cobro se guardan
+// al mediodía UTC y el día tiene que quedar igual al avanzar el período.
+// Si el día no existe en el mes destino (un cobro el 31 pasando a febrero) se
+// usa el último día de ese mes; sumar de una corre el cobro al mes siguiente.
 export function addCycle(date: Date, cycle: BillingCycle) {
-  const next = new Date(date);
+  const months = MONTHS_TO_ADD[cycle];
+  if (!months) return new Date(date);
 
-  if (cycle === "MENSUAL") next.setMonth(next.getMonth() + 1);
-  if (cycle === "TRIMESTRAL") next.setMonth(next.getMonth() + 3);
-  if (cycle === "ANUAL") next.setFullYear(next.getFullYear() + 1);
+  const day = date.getUTCDate();
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + months;
 
-  return next;
+  const lastDayOfTarget = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+
+  return new Date(Date.UTC(year, month, Math.min(day, lastDayOfTarget), 12));
 }
 
 const MONTH_NAMES = [
@@ -49,12 +62,12 @@ const MONTH_NAMES = [
 export function periodLabel(date: Date, cycle: BillingCycle) {
   if (cycle === "UNICO") return "Pago único";
   if (cycle === "POR_HITO") return "Hito";
-  if (cycle === "ANUAL") return `Año ${date.getFullYear()}`;
+  if (cycle === "ANUAL") return `Año ${date.getUTCFullYear()}`;
   if (cycle === "TRIMESTRAL") {
-    return `Trimestre desde ${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
+    return `Trimestre desde ${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
   }
 
-  return `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
+  return `${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 export async function getBillingData() {

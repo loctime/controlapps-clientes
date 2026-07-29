@@ -26,11 +26,17 @@ function getAmount(formData: FormData, key: string) {
   return Number.isFinite(value) && value >= 0 ? value : 0;
 }
 
+// Las fechas de cobro son días de calendario, no instantes. Se guardan al
+// mediodía UTC para que el día se lea igual desde Argentina y desde el server
+// (que corre en Europe/Berlin): a medianoche local se corría un día.
 function getDate(formData: FormData, key: string) {
   const value = getString(formData, key);
-  if (!value) return null;
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return null;
 
-  const parsed = new Date(`${value}T00:00:00`);
+  const [, year, month, day] = match;
+  const parsed = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), 12));
+
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
