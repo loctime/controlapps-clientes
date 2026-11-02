@@ -211,32 +211,69 @@ export function BillingBoard({
 
   return (
     <>
-      <section className="agenda-hero">
-        <div className="agenda-hero__top">
-          <div>
-            <p className="agenda-hero__greeting">Programas y cobros</p>
-            <h1>
-              {stats.activeCount} {stats.activeCount === 1 ? "programa activo" : "programas activos"}
-            </h1>
+      <section className="billing-hero">
+        <div className="billing-hero__header">
+          <div className="billing-hero__top">
+            <div>
+              <p className="billing-hero__greeting">Programas y cobros</p>
+              <h1>
+                {stats.activeCount} {stats.activeCount === 1 ? "programa activo" : "programas activos"}
+              </h1>
+            </div>
           </div>
+
+          <p className="billing-hero__summary">
+            {stats.overdueCount > 0
+              ? `${stats.overdueCount} ${
+                  stats.overdueCount === 1 ? "cobro vencido" : "cobros vencidos"
+                } esperando.`
+              : "Ningún cobro vencido. Todo al día."}
+          </p>
         </div>
 
-        <p className="agenda-hero__summary">
-          {stats.overdueCount > 0
-            ? `${stats.overdueCount} ${
-                stats.overdueCount === 1 ? "cobro vencido" : "cobros vencidos"
-              } esperando.`
-            : "Ningún cobro vencido. Todo al día."}
-        </p>
-
-        <div className="agenda-hero__stats">
-          <TotalsPill label="Ingreso mensual" totals={stats.mrr} modifier="violet" />
-          <TotalsPill label="Cobrado este mes" totals={stats.collectedThisMonth} modifier="green" />
-          <TotalsPill label="Por cobrar" totals={stats.pending} modifier="blue" />
-          <TotalsPill label="Vencido" totals={stats.overdue} modifier="red" />
-          <div className="stat-pill">
-            <span className="stat-value">{money(stats.infraMonthlyUsd, "USD")}</span>
-            <span className="stat-label">Infra por mes</span>
+        <div className="billing-hero__stats">
+          <div className="billing-card billing-card--violet">
+            <div className="billing-card__icon">💰</div>
+            <div className="billing-card__content">
+              <span className="billing-card__value">
+                {["ARS", "USD"].filter((c) => stats.mrr[c as Currency] > 0).map((c) => money(stats.mrr[c as Currency], c as Currency)).join(" · ")}
+              </span>
+              <span className="billing-card__label">Ingreso mensual</span>
+            </div>
+          </div>
+          <div className="billing-card billing-card--green">
+            <div className="billing-card__icon">✓</div>
+            <div className="billing-card__content">
+              <span className="billing-card__value">
+                {["ARS", "USD"].filter((c) => stats.collectedThisMonth[c as Currency] > 0).map((c) => money(stats.collectedThisMonth[c as Currency], c as Currency)).join(" · ")}
+              </span>
+              <span className="billing-card__label">Cobrado este mes</span>
+            </div>
+          </div>
+          <div className="billing-card billing-card--blue">
+            <div className="billing-card__icon">📋</div>
+            <div className="billing-card__content">
+              <span className="billing-card__value">
+                {["ARS", "USD"].filter((c) => stats.pending[c as Currency] > 0).map((c) => money(stats.pending[c as Currency], c as Currency)).join(" · ")}
+              </span>
+              <span className="billing-card__label">Por cobrar</span>
+            </div>
+          </div>
+          <div className="billing-card billing-card--red">
+            <div className="billing-card__icon">🔥</div>
+            <div className="billing-card__content">
+              <span className="billing-card__value">
+                {["ARS", "USD"].filter((c) => stats.overdue[c as Currency] > 0).map((c) => money(stats.overdue[c as Currency], c as Currency)).join(" · ")}
+              </span>
+              <span className="billing-card__label">Vencido</span>
+            </div>
+          </div>
+          <div className="billing-card billing-card--neutral">
+            <div className="billing-card__icon">🖥️</div>
+            <div className="billing-card__content">
+              <span className="billing-card__value">{money(stats.infraMonthlyUsd, "USD")}</span>
+              <span className="billing-card__label">Infra por mes</span>
+            </div>
           </div>
         </div>
       </section>

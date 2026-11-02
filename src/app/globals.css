@@ -1772,8 +1772,15 @@ button {
   padding: 28px;
   box-shadow: var(--shadow-soft);
   display: grid;
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 24px;
   overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .brief-hero {
+    grid-template-columns: 320px 1fr;
+  }
 }
 
 .brief-hero::after {
@@ -1789,6 +1796,11 @@ button {
 .brief-hero > * {
   position: relative;
   z-index: 1;
+}
+
+.brief-hero__header {
+  display: grid;
+  gap: 16px;
 }
 
 .brief-hero__top {
@@ -1835,19 +1847,115 @@ button {
 
 .brief-hero__stats {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .brief-hero__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.stat-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.stat-card__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.stat-card__content {
+  display: grid;
+  gap: 2px;
+}
+
+.stat-card__value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: "Arial Black", "Arial", sans-serif;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card__label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.stat-card--red {
+  background: rgba(220, 38, 38, 0.06);
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.stat-card--red .stat-card__value {
+  color: #b91c1c;
+}
+
+.stat-card--blue {
+  background: var(--blue-soft);
+  border-color: var(--blue-border);
+}
+
+.stat-card--blue .stat-card__value {
+  color: var(--blue-strong);
+}
+
+.stat-card--violet {
+  background: var(--violet-soft);
+  border-color: var(--violet-border);
+}
+
+.stat-card--violet .stat-card__value {
+  color: var(--violet-strong);
+}
+
+.stat-card--green {
+  background: var(--green-soft);
+  border-color: var(--green-border);
+}
+
+.stat-card--green .stat-card__value {
+  color: var(--green-strong);
+}
+
+.stat-card--neutral {
+  background: var(--surface-2);
 }
 
 .brief-overview {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 10px;
-  padding: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 640px) {
+  .brief-overview {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .brief-overview__item {
@@ -2180,6 +2288,169 @@ button {
 }
 
 /* ---------- Cobros ---------- */
+
+.billing-hero {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .billing-hero {
+    grid-template-columns: 320px 1fr;
+  }
+}
+
+.billing-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(540px 240px at 0% 0%, var(--violet-soft), transparent 65%),
+    radial-gradient(460px 260px at 100% 100%, var(--blue-soft), transparent 70%);
+  pointer-events: none;
+}
+
+.billing-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.billing-hero__header {
+  display: grid;
+  gap: 16px;
+}
+
+.billing-hero__top {
+  display: grid;
+  gap: 4px;
+}
+
+.billing-hero__greeting {
+  color: var(--violet-strong);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.billing-hero h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-family: "Arial Black", "Arial", sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.billing-hero__summary {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.billing-hero__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .billing-hero__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.billing-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.billing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.billing-card__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.billing-card__content {
+  display: grid;
+  gap: 2px;
+}
+
+.billing-card__value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-family: "Arial Black", "Arial", sans-serif;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.billing-card__label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.billing-card--violet {
+  background: var(--violet-soft);
+  border-color: var(--violet-border);
+}
+
+.billing-card--violet .billing-card__value {
+  color: var(--violet-strong);
+}
+
+.billing-card--green {
+  background: var(--green-soft);
+  border-color: var(--green-border);
+}
+
+.billing-card--green .billing-card__value {
+  color: var(--green-strong);
+}
+
+.billing-card--blue {
+  background: var(--blue-soft);
+  border-color: var(--blue-border);
+}
+
+.billing-card--blue .billing-card__value {
+  color: var(--blue-strong);
+}
+
+.billing-card--red {
+  background: rgba(220, 38, 38, 0.06);
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.billing-card--red .billing-card__value {
+  color: #b91c1c;
+}
+
+.billing-card--neutral {
+  background: var(--surface-2);
+}
 
 .billing-section {
   background: var(--surface);

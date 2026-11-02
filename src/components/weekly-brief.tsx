@@ -189,28 +189,56 @@ export function WeeklyBrief({
   return (
     <>
       <section className="brief-hero">
-        <div className="brief-hero__top">
-          <span className="brief-hero__chip">{dayLabel()}</span>
-          <h1>Brief semanal</h1>
-          <p className="brief-hero__range">{formatDateRangeLabel()}</p>
+        <div className="brief-hero__header">
+          <div className="brief-hero__top">
+            <span className="brief-hero__chip">{dayLabel()}</span>
+            <h1>Brief semanal</h1>
+            <p className="brief-hero__range">{formatDateRangeLabel()}</p>
+          </div>
+          <p className="brief-hero__summary">{summary}</p>
         </div>
-        <p className="brief-hero__summary">{summary}</p>
         <div className="brief-hero__stats">
-          <div className="stat-pill stat-pill--red">
-            <span className="stat-value">{counts.overdueTasks}</span>
-            <span className="stat-label">Vencidas</span>
+          <div className="stat-card stat-card--red">
+            <div className="stat-card__icon">🔥</div>
+            <div className="stat-card__content">
+              <span className="stat-card__value">{counts.overdueTasks}</span>
+              <span className="stat-card__label">Vencidas</span>
+            </div>
           </div>
-          <div className="stat-pill stat-pill--blue">
-            <span className="stat-value">{counts.magnatesNoTask}</span>
-            <span className="stat-label">Magnates s/tarea</span>
+          <div className="stat-card stat-card--blue">
+            <div className="stat-card__icon">👑</div>
+            <div className="stat-card__content">
+              <span className="stat-card__value">{counts.magnatesNoTask}</span>
+              <span className="stat-card__label">Magnates s/tarea</span>
+            </div>
           </div>
-          <div className="stat-pill stat-pill--violet">
-            <span className="stat-value">{counts.proximosNoTask}</span>
-            <span className="stat-label">Próximos s/tarea</span>
+          <div className="stat-card stat-card--violet">
+            <div className="stat-card__icon">🎯</div>
+            <div className="stat-card__content">
+              <span className="stat-card__value">{counts.proximosNoTask}</span>
+              <span className="stat-card__label">Próximos s/tarea</span>
+            </div>
           </div>
-          <div className="stat-pill stat-pill--green">
-            <span className="stat-value">{counts.doneLastWeek}</span>
-            <span className="stat-label">Hechas 7d</span>
+          <div className="stat-card stat-card--green">
+            <div className="stat-card__icon">✓</div>
+            <div className="stat-card__content">
+              <span className="stat-card__value">{counts.doneLastWeek}</span>
+              <span className="stat-card__label">Hechas 7d</span>
+            </div>
+          </div>
+          <div className="stat-card stat-card--neutral">
+            <div className="stat-card__icon">📊</div>
+            <div className="stat-card__content">
+              <span className="stat-card__value">{counts.pendingTasks}</span>
+              <span className="stat-card__label">Tareas pend.</span>
+            </div>
+          </div>
+          <div className="stat-card stat-card--neutral">
+            <div className="stat-card__icon">🆕</div>
+            <div className="stat-card__content">
+              <span className="stat-card__value">{counts.newThisWeek}</span>
+              <span className="stat-card__label">Nuevas 7d</span>
+            </div>
           </div>
         </div>
       </section>
@@ -231,14 +259,6 @@ export function WeeklyBrief({
         <div className="brief-overview__item">
           <span className="brief-overview__num">{counts.sinAsignar}</span>
           <span className="brief-overview__lbl">Sin asignar</span>
-        </div>
-        <div className="brief-overview__item">
-          <span className="brief-overview__num">{counts.pendingTasks}</span>
-          <span className="brief-overview__lbl">Tareas pend.</span>
-        </div>
-        <div className="brief-overview__item">
-          <span className="brief-overview__num">{counts.newThisWeek}</span>
-          <span className="brief-overview__lbl">Nuevas 7d</span>
         </div>
       </section>
 
